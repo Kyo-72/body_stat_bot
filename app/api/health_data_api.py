@@ -10,7 +10,7 @@ def fetch_health_data_a_week():
     data = {
         'access_token': os.getenv('HEALTH_API_ACCESS_TOKEN'),
         'date': '1',
-        'from': '20240409000000',
+        'from': '20240503000000',
         'to': '20240609235959',
         'tag': '6021,6022'
     }

@@ -6,20 +6,20 @@ class HealthDataRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def bulk_insert_health_data(self, data_list: list):
+    def bulk_insert_health_data(self, data_dict: dict):
         """
         複数のMyHealthDataレコードを一度に挿入する関数
         """
         new_records = []
-        for data in data_list:
+        for datetime, health_data in data_dict.items():
             # 重複するデータはDBに入れない
-            if self.__check_existing_measurement_datetime(data['measurement_datetime']):
+            if self.__check_existing_measurement_datetime(datetime):
                 continue
 
             new_records.append(MyHealthData(
-                    weight=data['weight'],
-                    bfp=data['bfp'],
-                    measurement_datetime=data['measurement_datetime']
+                    weight               = health_data['weight'],
+                    bfp                  = health_data['bfp'],
+                    measurement_datetime =datetime
                 )
             )
         
