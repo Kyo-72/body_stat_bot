@@ -1,18 +1,20 @@
+import datetime
 import json
 import os
 import requests
+import string
 
-def fetch_health_data_a_week():
+def fetch_health_data_by_date_range(start_datetime : datetime, end_datetime: datetime) ->json:
     # URL
     url = os.getenv('HEALTH_API_URL')
 
     # POSTデータ
     data = {
         'access_token': os.getenv('HEALTH_API_ACCESS_TOKEN'),
-        'date': '1',
-        'from': '20240503000000',
-        'to': '20240609235959',
-        'tag': '6021,6022'
+        'date'        : '1',
+        'from'        : datetime_to_string(start_datetime),
+        'to'          : datetime_to_string(end_datetime),
+        'tag'         : '6021,6022'                           #6021 体重、 6022 体脂肪率
     }
 
     # ヘッダー
@@ -43,7 +45,5 @@ def fetch_health_data_a_week():
     # 結果をJSON形式で返す
     return result
 
-# この関数を直接実行してテストする場合のコード（ローカルでのテスト用）
-if __name__ == "__main__":
-    result = fetch_health_data_a_week()
-    print(result)
+def datetime_to_string(datetime: datetime) ->string:
+    return datetime.strftime('%Y%m%d%H%M%S')
