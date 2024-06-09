@@ -1,6 +1,6 @@
 import json
-from health_data_api import fetch_health_data_a_week
-from slack_notifier import notify_slack_channel
+from api.health_data_api import fetch_health_data_a_week
+from api.slack_notifier import notify_slack_channel
 
 def lambda_handler(event, context):
     health_data_result = fetch_health_data_a_week()
