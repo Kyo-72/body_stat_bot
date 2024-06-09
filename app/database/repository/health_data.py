@@ -43,3 +43,12 @@ class HealthDataRepository:
             MyHealthData.measurement_datetime >= start_date,
             MyHealthData.measurement_datetime <= end_date
         ).all()
+    
+    def delete_health_data_before(self, cutoff_datetime: datetime):
+        """
+        指定期間以前のMyHealthDataレコードを削除する関数
+        """
+        self.db.query(MyHealthData).filter(
+            MyHealthData.measurement_datetime <= cutoff_datetime
+        ).delete(synchronize_session=False)
+        self.db.commit()

@@ -24,18 +24,21 @@ with next(get_session()) as session:
     # data_list = [
     #     {'weight': 70.5, 'bfp': 20.0, 'measurement_datetime': datetime(2023, 6, 10, 12, 0, 0)},
     #     {'weight': 71.0, 'bfp': 19.8, 'measurement_datetime': datetime(2023, 6, 11, 12, 0, 0)},
-    #     # 他のデータ...
     # ]
     # new_records = repository.bulk_insert_health_data(data_list)
     # for record in new_records:
     #     print(record)
 
     # 指定期間のデータ取得
-    start_date = datetime(2024, 6, 1)
-    end_date = datetime(2024, 6, 30)
-    health_data = repository.get_health_data_by_period(start_date, end_date)
-    for data in health_data:
-        print(vars(data))
+    # start_date = datetime(2024, 6, 1)
+    # end_date = datetime(2024, 6, 30)
+    # health_data = repository.get_health_data_by_period(start_date, end_date)
+    # for data in health_data:
+    #     print(vars(data))
+
+    #指定期間以前のdbを消す
+    cutoff_datetime = datetime.now() - timedelta(hours=1)
+    repository.delete_health_data_before(cutoff_datetime)
 
 
 
