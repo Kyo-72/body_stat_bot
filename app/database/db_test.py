@@ -1,6 +1,6 @@
 from database import engine, Base, get_session
 from datetime import datetime, timedelta
-from crud import bulk_insert_health_data, get_health_data_by_period
+from repository.health_data import bulk_insert_health_data, get_health_data_by_period
 from sqlalchemy.orm import Session
 from models.my_health_data import MyHealthData
 import pprint
