@@ -1,7 +1,7 @@
 # models.py
 
 from sqlalchemy import Column, Integer, Numeric, DateTime
-from database import Base
+from db_layer.database import Base
 
 class MyHealthData(Base):
     __tablename__ = 'my_health_data'

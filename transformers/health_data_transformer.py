@@ -2,7 +2,7 @@ import datetime
 import json
 from typing import Any, Dict
 
-def deserialize_to_dict_from_json(json_data: Dict[str, Any]) -> dict:
+def transform_health_api_data(json_data: Dict[str, Any]) -> dict:
     data_list = _deserialize_health_data(json_data)
     _format_datetime(data_list)
     squashed_data_dict = _squash_data(data_list)
@@ -13,8 +13,8 @@ def _deserialize_health_data(data: Dict[str, Any]) -> list:
     JSONからPythonオブジェクトにするだけ
     """
     outer_body = json.loads(data['body'])
-    inner_body = json.loads(outer_body['health_data_result']['body'])
-    data_list = inner_body['data']
+    # inner_body = json.loads(outer_body['body'])
+    data_list = outer_body['data']
     return data_list
 
 def _format_datetime(data_list: list) -> None:
