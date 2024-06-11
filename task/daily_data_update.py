@@ -22,6 +22,3 @@ def fetch_and_store_daily_data():
 
     #TODO 適切な返り値について考える
     return True
-
-
-fetch_and_store_daily_data()
