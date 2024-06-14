@@ -3,6 +3,7 @@ from datetime import date, timedelta
 def calculate_daily_average_health_data(transformed_health_data: dict) -> dict:
     '''
     日毎の平均データを計算する
+    input : 
     
     '''
     daily_average_health_data_list = []
