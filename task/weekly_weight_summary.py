@@ -1,6 +1,6 @@
 from db_layer.database import get_session
 from datetime import datetime, timedelta
-from logic.average_health_data_calc import calculate_daily_average_health_data
+from logic.average_health_data_calc import calculate_daily_average_health_data, calculate_average_health_data_for_period
 from repository.health_data_repository import HealthDataRepository
 from transformers.db.health_data_transformer import transform_db_health_data
 from transformers.db.health_data_transformer import transform_db_health_data
@@ -17,11 +17,14 @@ def notify_weekly_average_weight():
     with next(get_session()) as session:
         repository = HealthDataRepository(session)
         health_data_list = repository.get_health_data_by_period(start_datetime, end_datetime)
-    #TODO データを整形  
+    # データを整形  
     transformed_health_data_list = transform_db_health_data(health_data_list)
-    #TODO 日別測定データをDBに入れるならここらでDBに保存しないといけないね
-    #TODO 平均値を計算
-    average_health_data = calculate_daily_average_health_data(transformed_health_data_list)
+    # 日別測定データをDBに入れるならここらでDBに保存しないといけないね
+    # 日毎の平均値を計算
+    #TODO ここら辺のロジック、完全に分離した方がいいかもね
+    daily_average_health_data = calculate_daily_average_health_data(transformed_health_data_list)
+    # daily_average_health_dataに含まれる各日の平均体重と平均体脂肪率から、全期間の平均体重と平均体脂肪率を計算する
+    weekly_average_health_data = calculate_average_health_data_for_period(daily_average_health_data)
     #TODO メッセージを作成
     #TODO slackで通知
     pass
