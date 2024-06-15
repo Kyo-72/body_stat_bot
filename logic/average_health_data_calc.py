@@ -6,14 +6,13 @@ def calculate_daily_average_health_data(transformed_health_data: dict) -> dict:
     input : 
     
     '''
-    daily_average_health_data_list = []
-    for health_date in transformed_health_data:
-        daily_average_health_data = {'date' : health_date['date'], 'avr_weight': None, 'avr_bfp': None}
-        daily_average_health_data['avr_weight'] = _calculate_daily_health_data(health_date['weight_list'])
-        daily_average_health_data['avr_bfp'] = _calculate_daily_health_data(health_date['bfp_list'])
-        daily_average_health_data_list.append(daily_average_health_data)
+    daily_average_health_data = {}
+    for date, health_date in transformed_health_data.items():
+        daily_average_health_data[date] = {'avr_weight' : None, 'avr_bfp' : None}
+        daily_average_health_data[date]['avr_weight'] = _calculate_daily_health_data(health_date['weight_list'])
+        daily_average_health_data[date]['avr_bfp'] = _calculate_daily_health_data(health_date['bfp_list'])
 
-    return daily_average_health_data_list
+    return daily_average_health_data
 
 def _calculate_daily_health_data(data_list: list) -> float:
     data_sum = 0.0
