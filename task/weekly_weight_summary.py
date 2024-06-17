@@ -1,3 +1,4 @@
+from api.slack_notifier import notify_slack_channel
 from db_layer.database import get_session
 from datetime import datetime, timedelta
 from logic.average_health_data_calc import calculate_daily_average_health_data, calculate_average_health_data_for_period
@@ -29,6 +30,6 @@ def notify_weekly_average_weight():
     #TODO メッセージを作成
     message_for_slack = create_message(average_health_data_for_period)
     #TODO slackで通知
-    pass
+    notify_slack_channel(message_for_slack)
 
 notify_weekly_average_weight()

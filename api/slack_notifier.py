@@ -2,13 +2,13 @@ import json
 import os
 import requests
 
-def notify_slack_channel():
+def notify_slack_channel(message):
     # Slack Webhook URL
     url = os.getenv('SLACK_URL')
     
     # メッセージのデータ
     payload = {
-        "text": "なんかおくれや"
+        'text': message
     }
     
     # リクエストを送信
