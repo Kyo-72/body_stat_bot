@@ -38,7 +38,7 @@ def calculate_average_health_data_for_period(daily_average_health_data: dict):
     avr_weight = sum_weight / num_of_date
     avr_bfp    = sum_bfp / num_of_date
 
-    return {'start_date' : start_date, 'end_date' : end_date, 'avr_weight' : avr_weight, 'avr_bfp' : avr_bfp}
+    return {'start_date' : start_date, 'end_date' : end_date, 'avr_weight' : round(avr_weight, 2), 'avr_bfp' : round(avr_bfp, 2)}
 
 def _set_start_date_and_end_date(date_list: list) -> Tuple[Optional[date], Optional[date]]:
     start_date = None
