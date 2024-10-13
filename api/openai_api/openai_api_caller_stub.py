@@ -1,4 +1,4 @@
-class MockOpenaiApiCaller:
+class OpenaiApiCallerStub:
     def __init__(self):
         pass
 

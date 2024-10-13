@@ -1,6 +1,6 @@
 from database import engine, Base, get_session
 from datetime import datetime, timedelta
-from repository.health_data_repository import HealthDataRepository
+from repositories.health_data_repository import HealthDataRepository
 from transformers.jsons.health_data_transformer import deserialize_to_dict_from_json
 from sqlalchemy.orm import Session
 from models.my_health_data import MyHealthData
