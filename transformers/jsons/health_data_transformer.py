@@ -12,6 +12,7 @@ def _deserialize_health_data(data: Dict[str, Any]) -> list:
     """
     JSONからPythonオブジェクトにするだけ
     """
+    #TODO HTTPエラーが出た時の対処
     outer_body = json.loads(data['body'])
     # inner_body = json.loads(outer_body['body'])
     data_list = outer_body['data']

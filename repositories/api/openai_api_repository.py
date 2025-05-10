@@ -2,7 +2,7 @@ from api.openai_api.openai_api_caller import OpenaiApiCaller
 from api.openai_api.openai_api_caller_stub import OpenaiApiCallerStub
 
 # スタブするかどうか
-IS_STUBED = True
+IS_STUBED = False
 
 class OpenaiApiRepository:
     def __init__(self):

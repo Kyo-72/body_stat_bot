@@ -1,5 +1,5 @@
 # database.py
-
+from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -15,6 +15,7 @@ Base = declarative_base()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # セッションの取得関数
+@contextmanager
 def get_session():
     session = SessionLocal()
     try:
