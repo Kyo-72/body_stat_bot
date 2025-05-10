@@ -28,7 +28,7 @@ def notify_weekly_average_weight():
     # daily_average_health_dataに含まれる各日の平均体重と平均体脂肪率から、全期間の平均体重と平均体脂肪率を計算する
     average_health_data_for_period = calculate_average_health_data_for_period(daily_average_health_data)
     # メッセージを作成
-    message_for_slack = create_message(average_health_data_for_period)
+    message_for_slack = create_message(average_health_data_this_week, average_health_data_last_week)
     print(message_for_slack)
     # slackで通知
     notify_slack_channel(message_for_slack)
