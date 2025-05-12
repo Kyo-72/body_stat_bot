@@ -3,34 +3,74 @@ from logic.average_health_data_calc import calculate_daily_average_health_data, 
 from logic.message.message import create_message
 from services.health_data_service import HealthDataService
 from repositories.health_data_repository import HealthDataRepository
-from transformers.db.health_data_transformer import transform_db_health_data
-from transformers.db.health_data_transformer import transform_db_health_data
-from transformers.db.health_data_transformer import transform_db_health_data
+from transformers.db.health_data_transformer import transform_health_data_by_date
 from pprint import pprint
+from datetime import datetime, timedelta
 
 def notify_weekly_average_weight():
-    #DBからデータを取得
-    health_data_list = []
-    health_data_service = HealthDataService();
-    # ここで指定した週間分のデータを取得(10/22)
-    health_data_list = health_data_service.fetch_health_data_by_weeks(weeks = 1)
-    # データを整形  
-    # TODO トランスフォームじゃなくてhealth_dataのサービスでいい
-    transformed_health_data_list = transform_db_health_data(health_data_list)
+    
+    # ────────────────────────────────────────────────
+    # 「今週」
+    # ────────────────────────────────────────────────
+    now = datetime.now()
+    this_week_start = (
+        now - timedelta(days=7)
+        ).replace(hour=0, minute=0, second=0, microsecond=0)
+    this_week_end = now 
+    # ────────────────────────────────────────────────
+    # 「先週」
+    # ────────────────────────────────────────────────
+    # ちょうど7日前の0:00
+    last_week_start = (now - timedelta(days=14)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    last_week_end = (now - timedelta(days=7)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    ) - timedelta(seconds=1)
 
-    if len(transformed_health_data_list) == 0:
+    service = HealthDataService()
+
+    this_week_data = service.fetch_health_data_by_period(
+        start_datetime=this_week_start,
+        end_datetime=this_week_end,
+    )
+
+    # 今週分の測定データがない場合は中止
+    if len(this_week_data) == 0:
         return
-    # 日別測定データをDBに入れるならここらでDBに保存しないといけないね
-    # 日毎の平均値を計算
-    # ここら辺のロジック、完全に分離した方がいいかもね
-    # ここらはドメインぽいからいいかもやけどサービスから呼び出すのがいいかな
-    daily_average_health_data = calculate_daily_average_health_data(transformed_health_data_list)
-    # daily_average_health_dataに含まれる各日の平均体重と平均体脂肪率から、全期間の平均体重と平均体脂肪率を計算する
-    average_health_data_for_period = calculate_average_health_data_for_period(daily_average_health_data)
+    
+    average_daily_data_this_week = __calc_daily_average(this_week_data)
+    average_weekly_data_this_week = __calc_weekly_average(average_daily_data_this_week)
+
+    last_week_data = service.fetch_health_data_by_period(
+        start_datetime=last_week_start,
+        end_datetime=last_week_end,
+    )
+    average_daily_data_last_week = {}
+    average_weekly_data_last_week = []
+
+    # 先週の測定データがない場合は平均を求める処理をスキップスキップ
+    if not len(last_week_data) == 0:
+        average_daily_data_last_week = __calc_daily_average(this_week_data)
+        average_weekly_data_last_week  = __calc_weekly_average(average_daily_data_this_week)
+    
     # メッセージを作成
-    message_for_slack = create_message(average_health_data_this_week, average_health_data_last_week)
+    message_for_slack = create_message(
+        average_daily_data_this_week,
+        average_daily_data_last_week,
+        average_weekly_data_this_week,
+        average_weekly_data_last_week
+        )
     print(message_for_slack)
     # slackで通知
     notify_slack_channel(message_for_slack)
 
+def __calc_daily_average(date_list):
+    health_datum_by_date = transform_health_data_by_date(date_list)
+    return calculate_daily_average_health_data(health_datum_by_date)
+
+def __calc_weekly_average(daily_average):
+    # daily_average_health_dataに含まれる各日の平均体重と平均体脂肪率から、全期間の平均体重と平均体脂肪率を計算する
+    return calculate_average_health_data_for_period(daily_average)
+    
 notify_weekly_average_weight()

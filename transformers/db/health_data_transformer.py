@@ -1,9 +1,9 @@
 from db_layer.models.my_health_data import MyHealthData
 from datetime import datetime
 
-def transform_db_health_data(health_data_list: list[MyHealthData]) -> dict:
+def transform_health_data_by_date(health_data_list: list[MyHealthData]) -> dict:
     '''
-    データを整形する
+    データを測定日時日時毎に整形する
     input
     output : { date : {'weigh' : [float], 'bfp' : [float]} }
     '''

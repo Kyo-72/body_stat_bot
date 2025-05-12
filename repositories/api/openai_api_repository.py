@@ -25,7 +25,7 @@ class OpenaiApiRepository:
     def __create_request_body(self, content, system_content):
         # リクエストボディを作成
         return {
-            "model": "gpt-3.5-turbo",
+            "model": "gpt-4o",
             "messages": [
                 {"role": "system", "content": system_content},
                 {"role": "user", "content": content}

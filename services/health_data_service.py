@@ -6,11 +6,18 @@ class HealthDataService:
     def __init__(self):
         self.repository = HealthDataRepository()
 
-    def fetch_health_data_by_weeks(self, weeks=1):
-        # 一週間のデータを
-        start_datetime = datetime.now() - timedelta(days = 7 * weeks)
-        end_datetime   = datetime.now()
-        
-        health_data_list = self.repository.get_health_data_by_period(start_datetime, end_datetime)
+    #相対指定（週数）
+    def fetch_health_data_by_weeks(self, weeks: int = 1):
+        end_datetime = datetime.now()
+        start_datetime = end_datetime - timedelta(days=7 * weeks)
+        return self.fetch_health_data_by_period(start_datetime, end_datetime)
 
-        return health_data_list
+    # 絶対指定（開始日・終了日）
+    def fetch_health_data_by_period(
+        self,
+        start_datetime: datetime,
+        end_datetime: datetime,
+    ):
+        if start_datetime > end_datetime:
+            raise ValueError("start_datetime must be earlier than end_datetime")
+        return self.repository.get_health_data_by_period(start_datetime, end_datetime)
