@@ -51,8 +51,8 @@ def notify_weekly_average_weight():
 
     # 先週の測定データがない場合は平均を求める処理をスキップスキップ
     if not len(last_week_data) == 0:
-        average_daily_data_last_week = __calc_daily_average(this_week_data)
-        average_weekly_data_last_week  = __calc_weekly_average(average_daily_data_this_week)
+        average_daily_data_last_week = __calc_daily_average(last_week_data)
+        average_weekly_data_last_week  = __calc_weekly_average(average_daily_data_last_week)
     
     # メッセージを作成
     message_for_slack = create_message(
