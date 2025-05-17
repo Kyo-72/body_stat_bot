@@ -63,7 +63,8 @@ def notify_weekly_average_weight():
         )
     print(message_for_slack)
     # slackで通知
-    notify_slack_channel(message_for_slack)
+    res = notify_slack_channel(message_for_slack)
+    print(res)
 
 def __calc_daily_average(date_list):
     health_datum_by_date = transform_health_data_by_date(date_list)
