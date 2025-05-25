@@ -1,16 +1,16 @@
 import datetime
 import json
-import os
 import requests
 import string
+from param_store import get_param
 
 def fetch_health_data_by_date_range(start_datetime : datetime, end_datetime: datetime) ->json:
     # URL
-    url = os.getenv('HEALTH_API_URL')
+    url = get_param('HEALTH_API_URL')
 
     # POSTデータ
     data = {
-        'access_token': os.getenv('HEALTH_API_ACCESS_TOKEN'),
+        'access_token': get_param('HEALTH_API_ACCESS_TOKEN'),
         'date'        : '1',
         'from'        : datetime_to_string(start_datetime),
         'to'          : datetime_to_string(end_datetime),

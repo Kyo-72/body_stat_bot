@@ -1,10 +1,10 @@
 import json
-import os
 import requests
+from param_store import get_param
 
 def notify_slack_channel(message):
     # Slack Webhook URL
-    url = os.getenv('SLACK_URL')
+    url = get_param('SLACK_URL')
     
     # メッセージのデータ
     payload = {
